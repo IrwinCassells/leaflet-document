@@ -1,0 +1,34 @@
+---
+title: "Simple Leaflet Document"
+author: "IC"
+date: "January 7, 2018"
+output: html_document
+---
+
+## Import all the necessities 
+
+```{r,eval = T,echo=T,warning=F,message=F,comment=""}
+if(!require(leaflet)) install.packages("leaflet")
+require("leaflet")
+```
+
+## Random data to make with popups
+
+```{r pressure, echo=T,comment=""}
+set.seed(69)
+df = data.frame(lat = runif(100,35,37),
+                lng = runif(100,-78,-76),
+                popups = c(
+                            paste0("A",1:25),
+                            paste0("B",1:25),
+                            paste0("C",1:25),
+                            paste0("D",1:25)
+                          )
+                )
+```
+
+## Let's make that map (no icon changes)
+
+```{r,message=F,comment=""}
+df %>% leaflet() %>% addTiles() %>% addMarkers(popup = df$popups,clusterOptions = markerClusterOptions())
+```
